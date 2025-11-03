@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brain Tumor Classification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e7f1ff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 55px auto;
+            padding: 32px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 22px rgba(43, 87, 130, 0.20);
+            background-color: white;
+            text-align: center;
+        }
+        h1 {
+            color: #2b5782;
+            margin-bottom: 28px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        #testImage {
+            width: 100%;
+            max-width: 440px;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 9px;
+            margin-bottom: 14px;
+            border: 2px solid #2b5782;
+        }
+        #loadingIndicator {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #2b5782;
+            z-index: 1000;
+            background-color: rgba(255,255,255,0.9);
+            padding: 18px 36px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .btn-primary, .btn-outline-primary {
+            background-color: #2b5782 !important;
+            border-color: #2b5782 !important;
+        }
+        .btn-outline-primary {
+            background: #e7f1ff !important;
+            color: #2b5782 !important;
+            margin-top: 18px;
+        }
+        .btn-primary:hover, .btn-outline-primary:hover {
+            background-color: #224569 !important;
+            border-color: #224569 !important;
+        }
+        .label-text {
+            font-size: 1.16em;
+            font-weight: 600;
+            color: #2b5782;
+            margin: 7px 0;
+        }
+        .confidence-text {
+            font-size: 1.08em;
+            font-weight: bold;
+            color: #2b5782;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Brain Tumor Image Prediction</h1>
+        <img id="testImage" src="" alt="Test Image" class="img-fluid shadow-sm">
+        <p id="actualLabel" class="label-text">Actual Label:</p>
+        <p id="predictedLabel" class="label-text">Predicted Label:</p>
+        <p id="confidenceLabel" class="confidence-text"></p>
+        <button class="btn btn-primary" onclick="getNextImage()">Load Random Image</button>
+        <br>
+        <a href="{{ url_for('upload_file') }}" class="btn btn-outline-primary">Upload Your Own MRI Image</a>
+    </div>
+    <div id="loadingIndicator">🔍 Analyzing MRI...</div>
+    <script>
+        function getNextImage() {
+            document.getElementById('loadingIndicator').style.display = 'block';
+            fetch('/get-random-image')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('testImage').src = data.image_path;
+                    document.getElementById('actualLabel').innerText = 'Actual Label: ' + (data.actual_label || '');
+                    document.getElementById('predictedLabel').innerText = 'Predicted Label: ' + (data.predicted_label || '');
+                    document.getElementById('confidenceLabel').innerText = data.confidence !== undefined && data.confidence !== null ? 'Confidence: ' + data.confidence + '%' : '';
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            getNextImage();
+        }, false);
+    </script>
+</body>
+</html>
