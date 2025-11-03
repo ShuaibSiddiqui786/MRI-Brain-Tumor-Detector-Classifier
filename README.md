@@ -123,7 +123,7 @@ This section outlines the steps to run the Flask application locally and how to 
 ### Setting Up the Flask Application
 1. **Clone the Repository**:
     ```
-    git clone https://github.com/shuaibsiddiqui786/MRI-Brain-Tumor-Detection.git
+    git clone https://github.com/shuaibsiddiqui786/MRI-Brain-Tumor-Detector-Classifier.git
     ```
 
 2. **Navigate to the Project Directory**:
