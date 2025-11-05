@@ -102,5 +102,7 @@ def get_random_image():
         logger.error(f"Error in get-random-image route: {e}")
         return jsonify({'error': 'An error occurred', 'image_path':'', 'actual_label':'', 'predicted_label':'', 'confidence':''}), 500
 
-if __name__ == '__main__':
-    app.run(debug=False)
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)

@@ -1,0 +1,17 @@
+# Python cache files
+__pycache__/
+*.pyc
+
+# Environment folders
+mri-env311/
+venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+
+# Uploaded MRI images
+mri-images/uploads/
